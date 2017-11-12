@@ -18,11 +18,11 @@ public class Utils {
     private static Application sApplication;
 
     public static void init(@NonNull Application application){
-        sApplication = NullUtil.checkNonNull(application,"初始化Utils的Application对象不可为Null!");
+        sApplication = NullUtil.requireNonNull(application,"初始化Utils的Application对象不可为Null!");
     }
 
-    private static Application getApplication(){
-        return NullUtil.checkNonNull(sApplication,"尚未使用Application初始化Utils");
+    public static Application getApplication(){
+        return NullUtil.requireNonNull(sApplication,"尚未使用Application初始化Utils");
     }
 
     public static class DimenUtil{
@@ -53,15 +53,11 @@ public class Utils {
 
     public static class NullUtil{
 
-        public static  <T> T checkNonNull(T obj){
-            if (obj == null){
-                throw new NullPointerException();
-            }
-
-            return obj;
+        public static  <T> T requireNonNull(T obj){
+            return requireNonNull(obj,"");
         }
 
-        public static  <T> T checkNonNull(T obj,String errorTip){
+        public static  <T> T requireNonNull(T obj,String errorTip){
             if (obj == null){
                 throw new NullPointerException(errorTip);
             }
