@@ -1,4 +1,4 @@
-package com.coder.zzq.utilsdemo;
+package com.coder.zzq.ui.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
