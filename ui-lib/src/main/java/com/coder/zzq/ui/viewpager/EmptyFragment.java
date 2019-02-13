@@ -25,7 +25,7 @@ public class EmptyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_empty_android_ui, container, false);
+        View view = inflater.inflate(R.layout.android_ui_fragment_empty_android_ui, container, false);
         mTipView = view.findViewById(R.id.tip);
         if (mArgs != null) {
             mTipView.setText(mArgs.getString(ARG_TIP));
