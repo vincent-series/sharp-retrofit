@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
-
 public class EasyRecyclerView extends RecyclerView {
     public EasyRecyclerView(Context context) {
         this(context, null);

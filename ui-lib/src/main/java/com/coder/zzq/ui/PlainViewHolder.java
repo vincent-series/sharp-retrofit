@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PlainViewHolder {
+public class PlainViewHolder implements IPlainViewHolder {
 
     private View mRootView;
     private SparseArray<View> mIdToView;
@@ -47,63 +47,72 @@ public class PlainViewHolder {
 
     }
 
-
+    @Override
     public void setText(@IdRes int viewId, CharSequence text) {
         TextView view = findView(viewId, TextView.class);
         view.setText(text);
     }
 
+    @Override
     public void setText(@IdRes int viewId, @StringRes int text) {
         TextView view = findView(viewId, TextView.class);
         view.setText(text);
     }
 
-
+    @Override
     public void setImg(@IdRes int viewId, Drawable drawable) {
         ImageView imageView = findView(viewId, ImageView.class);
         imageView.setImageDrawable(drawable);
     }
 
+    @Override
     public void setImg(@IdRes int viewId, @DrawableRes int drawableRes) {
         ImageView imageView = findView(viewId, ImageView.class);
         imageView.setImageResource(drawableRes);
     }
 
+    @Override
     public void setImg(@IdRes int viewId, Bitmap bitmap) {
         ImageView imageView = findView(viewId, ImageView.class);
         imageView.setImageBitmap(bitmap);
     }
 
-
+    @Override
     public ViewCaster getView(@IdRes int idRes) {
         View view = findView(idRes);
         mViewCaster.setView(view);
         return mViewCaster;
     }
 
+    @Override
     public void setVisibility(@IdRes int viewId, int visibility) {
         findView(viewId).setVisibility(visibility);
     }
 
+    @Override
     public View getRootView() {
         return mRootView;
     }
 
-    public <T> T parseRootView(Class<T> viewType){
+    @Override
+    public <T> T parseRootView(Class<T> viewType) {
         return viewType.cast(mRootView);
     }
 
-    public Context getContext(){
+    @Override
+    public Context getContext() {
         return mRootView.getContext();
     }
 
+    @Override
     public void setTextColorRes(int viewId, @ColorRes int colorRes) {
-        TextView textView = findView(viewId,TextView.class);
-        textView.setTextColor(ContextCompat.getColor(textView.getContext(),colorRes));
+        TextView textView = findView(viewId, TextView.class);
+        textView.setTextColor(ContextCompat.getColor(textView.getContext(), colorRes));
     }
 
+    @Override
     public void setTextColor(int viewId, @ColorInt int color) {
-        TextView textView = findView(viewId,TextView.class);
+        TextView textView = findView(viewId, TextView.class);
         textView.setTextColor(color);
     }
 }
