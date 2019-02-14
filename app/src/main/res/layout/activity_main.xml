@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.coder.zzq.ui.recyclerview.EasyRecyclerView
-        android:id="@+id/easy_recycler_view"
+    <com.coder.zzq.ui.recyclerview.EasyRefreshRecyclerView
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
