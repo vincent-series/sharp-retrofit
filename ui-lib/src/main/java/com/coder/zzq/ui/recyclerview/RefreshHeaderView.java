@@ -12,7 +12,6 @@ import com.coder.zzq.ui.PlainViewHolder;
 import com.coder.zzq.ui.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, SwipeRefreshTrigger {
     private SimpleDateFormat mSimpleDateFormat;
@@ -37,54 +36,39 @@ public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, S
 
     @Override
     public void onRefresh() {
-        mPlainViewHolder.setText(R.id.refresh_tip, "正在刷新...");
-        mPlainViewHolder.setVisibility(R.id.last_refresh_time, View.GONE);
-        mPlainViewHolder.setVisibility(R.id.to_refresh_mark, View.GONE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, VISIBLE);
-
+        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.VISIBLE);
+        mPlainViewHolder.setVisibility(R.id.refreshing_tip,View.VISIBLE);
+        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.GONE);
+        mPlainViewHolder.setVisibility(R.id.refresh_tip_part,View.GONE);
         return;
     }
 
-    private boolean mPrepared;
 
     @Override
     public void onPrepare() {
-        mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷新");
-        mPlainViewHolder.setVisibility(R.id.last_refresh_time, View.VISIBLE);
-        mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
-        mPlainViewHolder.setVisibility(R.id.complete_mark, GONE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, GONE);
-        mPlainViewHolder.setVisibility(R.id.to_refresh_mark, VISIBLE);
-        mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_pull_can_refresh);
-        mPrepared = true;
     }
 
     @Override
     public void onMove(int yScrolled, boolean isComplete, boolean automatic) {
 
-        if (!mPrepared) {
-            mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷新");
-            mPlainViewHolder.setVisibility(R.id.last_refresh_time, View.VISIBLE);
-            mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
-            mPlainViewHolder.setVisibility(R.id.complete_mark, GONE);
-            mPlainViewHolder.setVisibility(R.id.refreshing_mark, GONE);
-            mPlainViewHolder.setVisibility(R.id.to_refresh_mark, VISIBLE);
-            mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_pull_can_refresh);
-            mPrepared = true;
-        }
 
         if (yScrolled <= getHeight() && !isComplete) {
-
-            mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷线");
-            mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
-            mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_pull_can_refresh);
+            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+            mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷新");
+            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
+            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
+            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
             return;
         }
 
         if (yScrolled > getHeight() && !isComplete) {
+            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
             mPlainViewHolder.setText(R.id.refresh_tip, "松开立即刷新");
-            mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
-            mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_release_to_refresh);
+            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_release_to_refresh);
+            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
+            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
             return;
         }
 
@@ -98,24 +82,18 @@ public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, S
 
     @Override
     public void onComplete() {
-        mPlainViewHolder.setText(R.id.refresh_tip, "刷新完成");
-        mLastRefreshTime = mSimpleDateFormat.format(new Date());
-        mPlainViewHolder.setVisibility(R.id.last_refresh_time, VISIBLE);
-        mPlainViewHolder.setText(R.id.last_refresh_time, "更新于：" + mLastRefreshTime);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, GONE);
-        mPlainViewHolder.setVisibility(R.id.complete_mark, VISIBLE);
 
     }
 
     @Override
     public void onReset() {
-        mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷新");
-        mPlainViewHolder.setVisibility(R.id.last_refresh_time, View.VISIBLE);
-        mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
-        mPlainViewHolder.setVisibility(R.id.complete_mark, GONE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, GONE);
-        mPlainViewHolder.setVisibility(R.id.to_refresh_mark, VISIBLE);
-        mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_pull_can_refresh);
-        mPrepared = false;
+//        mPlainViewHolder.setText(R.id.refresh_tip, "下拉可以刷新");
+//        mPlainViewHolder.setVisibility(R.id.last_refresh_time, View.VISIBLE);
+//        mPlainViewHolder.setText(R.id.last_refresh_time, "上次刷新：" + mLastRefreshTime);
+//        mPlainViewHolder.setVisibility(R.id.complete_mark, GONE);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_mark, GONE);
+//        mPlainViewHolder.setVisibility(R.id.to_refresh_mark, VISIBLE);
+//        mPlainViewHolder.setImg(R.id.to_refresh_mark, R.drawable.android_ui_pull_can_refresh);
+//        mPrepared = false;
     }
 }

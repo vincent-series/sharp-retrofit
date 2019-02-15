@@ -9,10 +9,8 @@
         android:layout_height="0.3dp"
         android:layout_alignParentBottom="true"
         android:background="@color/line_color" />
-
-
     <LinearLayout
-        android:id="@+id/mid_part"
+        android:id="@+id/refresh_tip_part"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_line"
@@ -41,42 +39,34 @@
             android:textSize="11sp" />
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:gravity="center"
+        android:id="@+id/refreshing_tip"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:text="正在刷新..."
         android:layout_above="@id/bottom_line"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/mid_part">
+        android:textColor="#323232"
+        android:textSize="15sp" />
 
         <ProgressBar
-
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/refreshing_tip"
+            android:layout_centerVertical="true"
             android:id="@+id/refreshing_mark"
             style="?android:progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="16dp"
-            android:indeterminateTint="@color/colorPrimary"
-            android:visibility="gone" />
+            android:indeterminateTint="@color/colorPrimary"/>
 
         <ImageView
-            android:id="@+id/complete_mark"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@id/refresh_tip_part"
+            android:layout_centerVertical="true"
+            android:id="@+id/refresh_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="16dp"
-            android:paddingTop="2dp"
-            android:src="@drawable/android_ui_complete"
-            android:tint="@color/colorPrimary" />
-
-        <ImageView
-            android:id="@+id/to_refresh_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="40dp"
             android:src="@drawable/android_ui_release_to_refresh"
             android:tint="@color/colorPrimary" />
-
-    </FrameLayout>
 </RelativeLayout>
