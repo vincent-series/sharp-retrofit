@@ -89,4 +89,9 @@ public class EasyViewHolder extends RecyclerView.ViewHolder implements IPlainVie
     public void setTextColor(int viewId, int color) {
         mPlainViewHolder.setTextColor(viewId, color);
     }
+
+    @Override
+    public String getText(int viewId) {
+        return mPlainViewHolder.getText(viewId);
+    }
 }

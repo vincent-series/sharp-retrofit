@@ -36,4 +36,6 @@ public interface IPlainViewHolder {
     void setTextColorRes(int viewId, @ColorRes int colorRes);
 
     void setTextColor(int viewId, @ColorInt int color);
+
+    String getText(int viewId);
 }

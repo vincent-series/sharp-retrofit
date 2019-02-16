@@ -9,9 +9,10 @@
         android:layout_height="0.3dp"
         android:layout_alignParentBottom="true"
         android:background="@color/line_color" />
+
     <LinearLayout
         android:id="@+id/refresh_tip_part"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_line"
         android:layout_centerInParent="true"
@@ -20,53 +21,50 @@
 
         <TextView
             android:id="@+id/refresh_tip"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="2dp"
-            android:paddingTop="4dp"
+            android:gravity="center_horizontal"
             android:text="下拉可以刷新"
             android:textColor="#323232"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/last_refresh_time"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingTop="2dp"
             android:text="上次刷新：xx-xx hh:mm:ss"
             android:textSize="11sp" />
     </LinearLayout>
 
     <TextView
-        android:gravity="center"
         android:id="@+id/refreshing_tip"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:text="正在刷新..."
         android:layout_above="@id/bottom_line"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="正在刷新..."
         android:textColor="#323232"
         android:textSize="15sp" />
 
-        <ProgressBar
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/refreshing_tip"
-            android:layout_centerVertical="true"
-            android:id="@+id/refreshing_mark"
-            style="?android:progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateTint="@color/colorPrimary"/>
+    <ProgressBar
+        android:id="@+id/refreshing_mark"
+        style="?android:progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/refreshing_tip"
+        android:indeterminateTint="@color/colorPrimary" />
 
-        <ImageView
-            android:layout_marginRight="30dp"
-            android:layout_toLeftOf="@id/refresh_tip_part"
-            android:layout_centerVertical="true"
-            android:id="@+id/refresh_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/android_ui_release_to_refresh"
-            android:tint="@color/colorPrimary" />
+    <ImageView
+        android:id="@+id/refresh_mark"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/refresh_tip_part"
+        android:scaleType="center"
+        android:tint="@color/colorPrimary" />
 </RelativeLayout>

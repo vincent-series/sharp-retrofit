@@ -115,4 +115,10 @@ public class PlainViewHolder implements IPlainViewHolder {
         TextView textView = findView(viewId, TextView.class);
         textView.setTextColor(color);
     }
+
+    @Override
+    public String getText(int viewId) {
+        TextView textView = findView(viewId, TextView.class);
+        return textView.getText().toString();
+    }
 }
