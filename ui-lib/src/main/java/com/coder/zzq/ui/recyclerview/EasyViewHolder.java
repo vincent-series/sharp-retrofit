@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.coder.zzq.ui.IPlainViewHolder;
 import com.coder.zzq.ui.PlainViewHolder;
 import com.coder.zzq.ui.ViewCaster;
@@ -42,17 +44,26 @@ public class EasyViewHolder extends RecyclerView.ViewHolder implements IPlainVie
 
     @Override
     public void setImg(int viewId, Drawable drawable) {
-        mPlainViewHolder.setImg(viewId, drawable);
+        ImageView imageView = getView(viewId).toImgView();
+        Glide.with(imageView.getContext())
+                .load(drawable)
+                .into(imageView);
     }
 
     @Override
     public void setImg(int viewId, int drawableRes) {
-        mPlainViewHolder.setImg(viewId, drawableRes);
+        ImageView imageView = getView(viewId).toImgView();
+        Glide.with(imageView.getContext())
+                .load(drawableRes)
+                .into(imageView);
     }
 
     @Override
     public void setImg(int viewId, Bitmap bitmap) {
-        mPlainViewHolder.setImg(viewId, bitmap);
+        ImageView imageView = getView(viewId).toImgView();
+        Glide.with(imageView.getContext())
+                .load(bitmap)
+                .into(imageView);
     }
 
     @Override
@@ -61,18 +72,23 @@ public class EasyViewHolder extends RecyclerView.ViewHolder implements IPlainVie
     }
 
     @Override
+    public View getViewAsPlain(int idRes) {
+        return mPlainViewHolder.getViewAsPlain(idRes);
+    }
+
+    @Override
     public void setVisibility(int viewId, int visibility) {
         mPlainViewHolder.setVisibility(viewId, visibility);
     }
 
     @Override
-    public View getRootView() {
-        return mPlainViewHolder.getRootView();
+    public View getRootViewAsPlain() {
+        return mPlainViewHolder.getRootViewAsPlain();
     }
 
     @Override
-    public <T> T parseRootView(Class<T> viewType) {
-        return mPlainViewHolder.parseRootView(viewType);
+    public <T> T getRootViewAsTypeOf(Class<T> viewType) {
+        return mPlainViewHolder.getRootViewAsTypeOf(viewType);
     }
 
     @Override

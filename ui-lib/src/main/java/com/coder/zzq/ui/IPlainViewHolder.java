@@ -11,6 +11,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 
 public interface IPlainViewHolder {
+
     void setText(@IdRes int viewId, CharSequence text);
 
     void setText(@IdRes int viewId, @StringRes int text);
@@ -18,18 +19,19 @@ public interface IPlainViewHolder {
 
     void setImg(@IdRes int viewId, Drawable drawable);
 
-    void setImg(@IdRes int viewId, @DrawableRes int drawableRes);
-
     void setImg(@IdRes int viewId, Bitmap bitmap);
 
+    void setImg(@IdRes int viewId, @DrawableRes int drawableRes);
 
     ViewCaster getView(@IdRes int idRes);
 
+    View getViewAsPlain(@IdRes int idRes);
+
     void setVisibility(@IdRes int viewId, int visibility);
 
-    View getRootView();
+    View getRootViewAsPlain();
 
-    <T> T parseRootView(Class<T> viewType);
+    <T> T getRootViewAsTypeOf(Class<T> viewType);
 
     Context getContext();
 

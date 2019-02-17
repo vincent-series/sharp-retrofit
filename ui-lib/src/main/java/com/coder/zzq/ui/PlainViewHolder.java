@@ -17,34 +17,25 @@ import android.widget.TextView;
 public class PlainViewHolder implements IPlainViewHolder {
 
     private View mRootView;
-    private SparseArray<View> mIdToView;
-    private ViewCaster mViewCaster;
+    private SparseArray<ViewCaster> mIdToView;
 
     public PlainViewHolder(View rootView) {
         mRootView = rootView;
         mIdToView = new SparseArray<>();
-        mViewCaster = new ViewCaster();
     }
 
     private <T extends View> T findView(@IdRes int viewId, Class<T> clazz) {
-        T view = (T) mIdToView.get(viewId, null);
-        if (view == null) {
-            view = (T) mRootView.findViewById(viewId);
-            mIdToView.put(viewId, view);
+        ViewCaster viewCaster = mIdToView.get(viewId, null);
+        if (viewCaster == null) {
+            viewCaster = new ViewCaster(mRootView.findViewById(viewId));
+            mIdToView.put(viewId, viewCaster);
         }
 
-        return view;
+        return viewCaster.toView(clazz);
     }
 
     private View findView(@IdRes int viewId) {
-        View view = mIdToView.get(viewId, null);
-        if (view == null) {
-            view = mRootView.findViewById(viewId);
-            mIdToView.put(viewId, view);
-        }
-
-        return view;
-
+        return findView(viewId, View.class);
     }
 
     @Override
@@ -69,6 +60,7 @@ public class PlainViewHolder implements IPlainViewHolder {
     public void setImg(@IdRes int viewId, @DrawableRes int drawableRes) {
         ImageView imageView = findView(viewId, ImageView.class);
         imageView.setImageResource(drawableRes);
+
     }
 
     @Override
@@ -80,8 +72,13 @@ public class PlainViewHolder implements IPlainViewHolder {
     @Override
     public ViewCaster getView(@IdRes int idRes) {
         View view = findView(idRes);
-        mViewCaster.setView(view);
-        return mViewCaster;
+        return new ViewCaster(view);
+    }
+
+
+    @Override
+    public View getViewAsPlain(int idRes) {
+        return getView(idRes).asPlainView();
     }
 
     @Override
@@ -90,12 +87,12 @@ public class PlainViewHolder implements IPlainViewHolder {
     }
 
     @Override
-    public View getRootView() {
+    public View getRootViewAsPlain() {
         return mRootView;
     }
 
     @Override
-    public <T> T parseRootView(Class<T> viewType) {
+    public <T> T getRootViewAsTypeOf(Class<T> viewType) {
         return viewType.cast(mRootView);
     }
 

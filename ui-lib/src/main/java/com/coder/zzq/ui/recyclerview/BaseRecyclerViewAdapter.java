@@ -84,14 +84,44 @@ public abstract class BaseRecyclerViewAdapter<HeaderData, BodyDataItem, FooterDa
     }
 
     @Override
-    public EasyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EasyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(itemViewLayout(viewType), parent, false);
-        EasyViewHolder viewHolder = new EasyViewHolder(itemView);
-        afterViewHolderCreated(viewHolder);
+        final EasyViewHolder viewHolder = new EasyViewHolder(itemView);
+        switch (viewType) {
+            case ITEM_TYPE_HEADER:
+                initHeaderView(viewHolder.itemView, viewHolder);
+                break;
+            case ITEM_TYPE_FOOTER:
+                initFooterView(viewHolder.itemView, viewHolder);
+                break;
+            default:
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int globalPos = viewHolder.getAdapterPosition();
+                        int bodyPos = withHeader() ? globalPos : globalPos + 1;
+                        onBodyItemClick(v, globalPos, bodyPos, mBodyData.get(bodyPos));
+                    }
+                });
+                initBodyView(viewHolder.itemView, viewHolder, viewType);
+                break;
+        }
         return viewHolder;
     }
 
-    protected void afterViewHolderCreated(EasyViewHolder viewHolder) {
+    protected void onBodyItemClick(View v, int globalPos, int bodyPos, BodyDataItem bodyDataItem) {
+
+    }
+
+    protected void initBodyView(View itemView, EasyViewHolder viewHolder, int viewType) {
+
+    }
+
+    protected void initFooterView(View footerView, EasyViewHolder viewHolder) {
+
+    }
+
+    protected void initHeaderView(View headerView, EasyViewHolder viewHolder) {
 
     }
 
@@ -99,32 +129,32 @@ public abstract class BaseRecyclerViewAdapter<HeaderData, BodyDataItem, FooterDa
     public void onBindViewHolder(EasyViewHolder holder, int position) {
         if (position == 0 && withHeader()) {
             if (mHeaderData != null) {
-                bindHeaderData(holder, mHeaderData);
+                onBindHeaderData(holder, mHeaderData);
             }
         } else if (position == getItemCount() - 1 && withFooter()) {
             if (mFooterData != null) {
-                bindFooterData(holder, mFooterData);
+                onBindFooterData(holder, mFooterData);
             }
         } else {
-            bindBodyData(holder, position);
+            bindBodyData(holder, position, getItemViewType(position));
         }
     }
 
-    private void bindBodyData(EasyViewHolder holder, int position) {
+    private void bindBodyData(EasyViewHolder holder, int position, int viewType) {
         int bodyPos = position;
         if (withHeader()) {
             bodyPos = position - 1;
         }
-        bindData(holder, position, bodyPos, mBodyData.get(bodyPos));
+        onBindBodyData(holder, position, bodyPos, mBodyData.get(bodyPos), viewType);
     }
 
-    protected abstract void bindData(EasyViewHolder holder, int globalPos, int bodyPos, BodyDataItem bodyDataItem);
+    protected abstract void onBindBodyData(EasyViewHolder holder, int globalPos, int bodyPos, BodyDataItem bodyDataItem, int itemType);
 
-    protected void bindFooterData(EasyViewHolder viewHolder, FooterData footerData) {
+    protected void onBindFooterData(EasyViewHolder viewHolder, FooterData footerData) {
 
     }
 
-    protected void bindHeaderData(EasyViewHolder viewHolder, HeaderData headerData) {
+    protected void onBindHeaderData(EasyViewHolder viewHolder, HeaderData headerData) {
 
     }
 

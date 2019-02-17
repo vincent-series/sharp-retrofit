@@ -11,27 +11,23 @@ import android.widget.TextView;
 public class ViewCaster {
     private View mView;
 
-    public ViewCaster() {
-
-    }
-
-    public void setView(View view) {
+    public ViewCaster(View view) {
         mView = view;
     }
 
-    public <T> T toView(Class<T> viewType){
+    public <T> T toView(Class<T> viewType) {
         return viewType.cast(mView);
     }
 
-    public TextView toTextView(){
+    public TextView toTextView() {
         return (TextView) mView;
     }
 
-    public ImageView toImgView(){
+    public ImageView toImgView() {
         return (ImageView) mView;
     }
 
-    public View plainView() {
+    public View asPlainView() {
         return mView;
     }
 }

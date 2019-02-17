@@ -12,8 +12,8 @@ public class PlainAdapter extends BaseRecyclerViewAdapter<String, String, String
     }
 
     @Override
-    protected void bindData(EasyViewHolder holder, int globalPos, int bodyPos, String s) {
-        holder.parseRootView(TextView.class).setText(s);
+    protected void onBindBodyData(EasyViewHolder holder, int globalPos, int bodyPos, String s, int itemType) {
+        holder.getRootViewAsTypeOf(TextView.class).setText(s);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class PlainAdapter extends BaseRecyclerViewAdapter<String, String, String
     }
 
     @Override
-    protected void bindHeaderData(EasyViewHolder viewHolder, String o) {
-        viewHolder.parseRootView(TextView.class).setText(o);
+    protected void onBindHeaderData(EasyViewHolder viewHolder, String o) {
+        viewHolder.getRootViewAsTypeOf(TextView.class).setText(o);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PlainAdapter extends BaseRecyclerViewAdapter<String, String, String
     }
 
     @Override
-    protected void bindFooterData(EasyViewHolder viewHolder, String o) {
-        viewHolder.parseRootView(TextView.class).setText(o);
+    protected void onBindFooterData(EasyViewHolder viewHolder, String o) {
+        viewHolder.getRootViewAsTypeOf(TextView.class).setText(o);
     }
 }
