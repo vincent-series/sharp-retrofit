@@ -17,4 +17,5 @@ public class EasyRecyclerView extends RecyclerView {
     public EasyRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
 }

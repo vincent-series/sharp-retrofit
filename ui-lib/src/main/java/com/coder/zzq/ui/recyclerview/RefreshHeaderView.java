@@ -50,6 +50,13 @@ public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, S
 
     @Override
     public void onPrepare() {
+        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+        mPlainViewHolder.setText(R.id.refresh_tip, PULL_CAN_REFRESH);
+        mPlainViewHolder.setText(R.id.last_refresh_time, "上次更新：" + mLastRefreshTime);
+        mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
+        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
+        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
     }
 
     @Override
