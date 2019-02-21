@@ -52,12 +52,13 @@
     <ProgressBar
         android:id="@+id/refreshing_mark"
         style="?android:progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/refreshing_tip"
-        android:indeterminateTint="@color/colorPrimary" />
+        />
 
     <ImageView
         android:id="@+id/refresh_mark"

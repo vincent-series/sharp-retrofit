@@ -40,49 +40,49 @@ public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, S
 
     @Override
     public void onRefresh() {
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.VISIBLE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.VISIBLE);
-        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.GONE);
-        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.GONE);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.VISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.VISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.INVISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.INVISIBLE);
         return;
     }
 
 
     @Override
     public void onPrepare() {
-        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
-        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
-        mPlainViewHolder.setText(R.id.refresh_tip, PULL_CAN_REFRESH);
-        mPlainViewHolder.setText(R.id.last_refresh_time, "上次更新：" + mLastRefreshTime);
-        mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
+//        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+//        mPlainViewHolder.setText(R.id.refresh_tip, PULL_CAN_REFRESH);
+//        mPlainViewHolder.setText(R.id.last_refresh_time, "上次更新：" + mLastRefreshTime);
+//        mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.INVISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.INVISIBLE);
     }
 
     @Override
     public void onMove(int yScrolled, boolean isComplete, boolean automatic) {
-        if (yScrolled <= getHeight() && !isComplete &&
-                !mPlainViewHolder.getText(R.id.refresh_tip).equals(PULL_CAN_REFRESH)) {
-            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
-            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
-            mPlainViewHolder.setText(R.id.refresh_tip, PULL_CAN_REFRESH);
-            mPlainViewHolder.setText(R.id.last_refresh_time, "上次更新：" + mLastRefreshTime);
-            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
-            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
-            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
-            return;
-        }
-
-        if (yScrolled > getHeight() && !isComplete
-                && !mPlainViewHolder.getText(R.id.refresh_tip).equals(RELEASE_TO_REFRESH)) {
-            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
-            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
-            mPlainViewHolder.setText(R.id.refresh_tip, RELEASE_TO_REFRESH);
-            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_release_to_refresh);
-            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
-            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
-            return;
-        }
+//        if (yScrolled <= getHeight() && !isComplete &&
+//                !mPlainViewHolder.getText(R.id.refresh_tip).equals(PULL_CAN_REFRESH)) {
+//            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+//            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+//            mPlainViewHolder.setText(R.id.refresh_tip, PULL_CAN_REFRESH);
+//            mPlainViewHolder.setText(R.id.last_refresh_time, "上次更新：" + mLastRefreshTime);
+//            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_pull_can_refresh);
+//            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.INVISIBLE);
+//            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.INVISIBLE);
+//            return;
+//        }
+//
+//        if (yScrolled > getHeight() && !isComplete
+//                && !mPlainViewHolder.getText(R.id.refresh_tip).equals(RELEASE_TO_REFRESH)) {
+//            mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+//            mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+//            mPlainViewHolder.setText(R.id.refresh_tip, RELEASE_TO_REFRESH);
+//            mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_release_to_refresh);
+//            mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.INVISIBLE);
+//            mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.INVISIBLE);
+//            return;
+//        }
 
 
     }
@@ -94,14 +94,14 @@ public class RefreshHeaderView extends RelativeLayout implements SwipeTrigger, S
 
     @Override
     public void onComplete() {
-        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
-        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
-        mPlainViewHolder.setText(R.id.refresh_tip, REFRESH_COMPLETE);
-        mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_complete);
-        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.GONE);
-        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.GONE);
-        mLastRefreshTime = mSimpleDateFormat.format(new Date());
-        mPlainViewHolder.setText(R.id.last_refresh_time, "更新于：" + mLastRefreshTime);
+//        mPlainViewHolder.setVisibility(R.id.refresh_mark, View.VISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refresh_tip_part, View.VISIBLE);
+//        mPlainViewHolder.setText(R.id.refresh_tip, REFRESH_COMPLETE);
+//        mPlainViewHolder.setImg(R.id.refresh_mark, R.drawable.android_ui_complete);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_mark, View.INVISIBLE);
+//        mPlainViewHolder.setVisibility(R.id.refreshing_tip, View.INVISIBLE);
+//        mLastRefreshTime = mSimpleDateFormat.format(new Date());
+//        mPlainViewHolder.setText(R.id.last_refresh_time, "更新于：" + mLastRefreshTime);
     }
 
     @Override
