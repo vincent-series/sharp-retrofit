@@ -215,6 +215,10 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         }
     }
 
+    public void loadHtmlText(String htmlText) {
+        mWebView.loadDataWithBaseURL(null, htmlText, "text/html", "utf-8", null);
+    }
+
     @SuppressLint("JavascriptInterface")
     public void setObjInvokedByJs(Object obj, String name) {
         mWebView.addJavascriptInterface(obj, name);
@@ -254,8 +258,12 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
 
     private void processOnGoBackClick() {
         String url = deleteUrlParams(mCurrentUrl);
-        if (url.equals(mMainUrl) || (mAdditionalMainUrls.contains(url))) {
+        if (url.equals(mMainUrl) || (mAdditionalMainUrls != null && mAdditionalMainUrls.contains(url))
+                || !mWebView.canGoBack()) {
             mWebViewListener.onMainUrlExit(mHostActivity);
+        }
+        {
+            mWebView.goBack();
         }
     }
 

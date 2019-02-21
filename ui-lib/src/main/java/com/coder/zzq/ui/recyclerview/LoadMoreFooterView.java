@@ -36,7 +36,7 @@ public class LoadMoreFooterView extends RelativeLayout implements SwipeTrigger, 
         mPlainViewHolder.setVisibility(R.id.loading_more_mark, View.VISIBLE);
         mPlainViewHolder.setVisibility(R.id.load_more_tip, View.GONE);
         mPlainViewHolder.setVisibility(R.id.load_more_mark, View.GONE);
-        mPlainViewHolder.setText(R.id.loading_more_tip, "正在加载更多...");
+        mPlainViewHolder.setText(R.id.loading_more_tip, "正在加载");
     }
 
     @Override
@@ -83,9 +83,7 @@ public class LoadMoreFooterView extends RelativeLayout implements SwipeTrigger, 
         mPlainViewHolder.setVisibility(R.id.loading_more_tip, View.GONE);
         mPlainViewHolder.setVisibility(R.id.loading_more_mark, View.GONE);
         mPlainViewHolder.setVisibility(R.id.load_more_tip, View.VISIBLE);
-        mPlainViewHolder.setVisibility(R.id.load_more_mark, View.VISIBLE);
         mPlainViewHolder.setText(R.id.load_more_tip, "加载完成");
-        mPlainViewHolder.setImg(R.id.load_more_mark, R.drawable.android_ui_complete);
     }
 
     @Override
