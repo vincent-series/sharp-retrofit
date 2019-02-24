@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +29,6 @@ import com.coder.zzq.ui.BuildConfig;
 import com.coder.zzq.ui.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author zhuzhiqiang
@@ -40,7 +40,6 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
     private String mCurrentUrl = "";
     private int mProgress;
     private String mMainUrl;
-    private List<String> mAdditionalMainUrls;
     private boolean mIsWebViewNeverLoaded = true;
     private WebViewListener mWebViewListener;
 
@@ -123,21 +122,29 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         mWebView.getSettings().setBlockNetworkImage(false);
 
         mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageCommitVisible(WebView view, String url) {
+                super.onPageCommitVisible(view, url);
+                if (TextUtils.isEmpty(mCurrentUrl)) {
+                    mCurrentUrl = view.getUrl();
+                    return;
+                }
+                if (!mCurrentUrl.equals(view.getUrl()) && mWebViewListener != null) {
+                    mWebViewListener.onWebUrlChanged(EasyWebView.this, view.getUrl());
+                }
+                if (!mCurrentUrl.equals(view.getUrl()) && isHtmlText(view.getUrl()) && isMainUrl(view.getUrl())) {
+                    refresh();
+                }
+                mCurrentUrl = view.getUrl();
+            }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (mMainUrl == null) {
-                    mMainUrl = deleteUrlParams(url);
-                }
+
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("zzq", url);
-                if (!mCurrentUrl.equals(url) && mWebViewListener != null) {
-                    mWebViewListener.onWebUrlChanged(EasyWebView.this, url);
-                }
-                mCurrentUrl = url;
             }
 
             @Override
@@ -208,6 +215,7 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         if (url == null || url.trim().isEmpty()) {
             return;
         }
+        setMainUrl(deleteUrlParams(url));
         if (getCurrentUrl().equals(url)) {
             mWebView.reload();
         } else {
@@ -215,8 +223,23 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public void loadHtmlText(String htmlText) {
-        mWebView.loadDataWithBaseURL(null, htmlText, "text/html", "utf-8", null);
+    private void setMainUrl(String url) {
+        if (mMainUrl != null) {
+            mMainUrl = url;
+        }
+    }
+
+    public void loadHtmlText(CharSequence htmlText) {
+        setMainUrl(htmlText.toString());
+        if (htmlText.equals(mMainUrl)) {
+            refresh();
+        } else {
+            mWebView.loadDataWithBaseURL(null, htmlText.toString(), "text/html", "utf-8", null);
+        }
+    }
+
+    public void loadHtmlText(@StringRes int htmlText) {
+        loadHtmlText(getContext().getString(htmlText));
     }
 
     @SuppressLint("JavascriptInterface")
@@ -258,13 +281,23 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
 
     private void processOnGoBackClick() {
         String url = deleteUrlParams(mCurrentUrl);
-        if (url.equals(mMainUrl) || (mAdditionalMainUrls != null && mAdditionalMainUrls.contains(url))
-                || !mWebView.canGoBack()) {
+        if (url.equals(mMainUrl) || !mWebView.canGoBack()) {
             mWebViewListener.onMainUrlExit(mHostActivity);
-        }
-        {
+        } else {
             mWebView.goBack();
         }
+    }
+
+    private boolean isMainUrl(String url) {
+        if (url.equals("about:blank") || url.equals("data:text/html;charset=utf-8;base64,")) {
+            return true;
+        }
+        url = deleteUrlParams(url);
+        return url.equals(mMainUrl);
+    }
+
+    private boolean isHtmlText(String url) {
+        return "about:blank".equals(url);
     }
 
     private String deleteUrlParams(String url) {
@@ -343,16 +376,13 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         return this;
     }
 
-    public EasyWebView additionalMainUrl(String... mainUrl) {
-        for (int index = 0; index < mainUrl.length; index++) {
-            mainUrl[index] = deleteUrlParams(mainUrl[index]);
-        }
-        mAdditionalMainUrls = Arrays.asList(mainUrl);
+    public EasyWebView setWebViewListener(WebViewListener webViewListener) {
+        mWebViewListener = webViewListener;
         return this;
     }
 
-    public EasyWebView setWebViewListener(WebViewListener webViewListener) {
-        mWebViewListener = webViewListener;
+    public EasyWebView setHostActivity(Activity activity) {
+        mHostActivity = activity;
         return this;
     }
 
