@@ -12,6 +12,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -390,9 +391,20 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
 
     public EasyWebView toolbarHeight(float dp) {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
-        lp.width = Utils.dpToPx(dp);
+        lp.height = Utils.dpToPx(dp);
         mToolbar.setLayoutParams(lp);
         return this;
+    }
+
+    public EasyWebView iconTintColor(@ColorInt int color) {
+        DrawableCompat.setTint(mGoBackView.getDrawable(), color);
+        DrawableCompat.setTint(mCloseView.getDrawable(), color);
+        DrawableCompat.setTint(mRefreshView.getDrawable(), color);
+        return this;
+    }
+
+    public EasyWebView iconTintColorRes(@ColorRes int colorRes) {
+        return iconTintColor(Utils.getColorFromRes(colorRes));
     }
 
     public EasyWebView toolbarBackgroundColor(@ColorInt int color) {

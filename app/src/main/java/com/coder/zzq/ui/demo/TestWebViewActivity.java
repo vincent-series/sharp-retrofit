@@ -1,5 +1,6 @@
 package com.coder.zzq.ui.demo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,6 +14,9 @@ public class TestWebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_web_view);
         mEasyWebView = findViewById(R.id.easy_web_view);
+        mEasyWebView.hostActivity(this)
+                .toolbarHeight(56)
+                .iconTintColor(Color.parseColor("#ffffff"));
         StringBuilder sb = new StringBuilder();
         // 拼接一段HTML代码
         sb.append("<html>");
@@ -27,6 +31,8 @@ public class TestWebViewActivity extends AppCompatActivity {
 //        mEasyWebView.loadUrl("https://www.jianshu.com/p/c57cb313a461");
         mEasyWebView.loadHtmlText(sb.toString());
         mEasyWebView.defaultPageTitle("小班课")
-                .showToolbar(false);
+                .toolbarBackgroundColorRes(R.color.colorPrimary)
+                .titleColor(Color.parseColor("#ffffff"))
+                .showToolbar(true);
     }
 }
