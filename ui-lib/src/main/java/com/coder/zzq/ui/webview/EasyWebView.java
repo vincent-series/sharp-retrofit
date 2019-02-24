@@ -8,11 +8,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ValueCallback;
@@ -22,9 +25,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.coder.zzq.smartshow.core.Utils;
 import com.coder.zzq.ui.BuildConfig;
 import com.coder.zzq.ui.R;
 
@@ -181,14 +186,13 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
     }
 
     private void selectPic() {
-        ensureActivityHasSet();
         Intent selectPicIntent = new Intent(Intent.ACTION_GET_CONTENT);
         selectPicIntent.addCategory(Intent.CATEGORY_OPENABLE);
         selectPicIntent.putExtra("return-data", true);
         selectPicIntent.setType("image/*");
         selectPicIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 "image/*");
-        mHostActivity.startActivityForResult(Intent.createChooser(selectPicIntent, "选取照片"),
+        getHostActivity().startActivityForResult(Intent.createChooser(selectPicIntent, "选取照片"),
                 mRequestCodeForTakeOrSelectPhoto);
     }
 
@@ -282,10 +286,20 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
     private void processOnGoBackClick() {
         String url = deleteUrlParams(mCurrentUrl);
         if (url.equals(mMainUrl) || !mWebView.canGoBack()) {
-            mWebViewListener.onMainUrlExit(mHostActivity);
+            if (mWebViewListener != null) {
+                mWebViewListener.onMainUrlExit(getHostActivity());
+            }
+            finishHostActivity();
         } else {
             mWebView.goBack();
         }
+    }
+
+    private Activity getHostActivity() {
+        if (mHostActivity == null) {
+            throw new IllegalStateException("you have not set host activity yet!");
+        }
+        return mHostActivity;
     }
 
     private boolean isMainUrl(String url) {
@@ -305,8 +319,7 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
     }
 
     private void finishHostActivity() {
-        ensureActivityHasSet();
-        mHostActivity.finish();
+        getHostActivity().finish();
     }
 
     public void onHostActivityResult(int requestCode, int resultCode, Intent data) {
@@ -349,12 +362,6 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    private void ensureActivityHasSet() {
-        if (mHostActivity == null) {
-            throw new IllegalStateException("you has not invoke method: hostActivity(Activity activity)");
-        }
-    }
-
     public EasyWebView takeOrSelectPhotoEnable(boolean enable, int requestCode) {
         mEnableTakeOrSelectPhoto = enable;
         mRequestCodeForTakeOrSelectPhoto = requestCode;
@@ -371,16 +378,57 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         return this;
     }
 
-    public EasyWebView setWebViewListener(WebViewListener webViewListener) {
+    public EasyWebView webViewListener(WebViewListener webViewListener) {
         mWebViewListener = webViewListener;
         return this;
     }
 
-    public EasyWebView setHostActivity(Activity activity) {
+    public EasyWebView hostActivity(Activity activity) {
         mHostActivity = activity;
         return this;
     }
 
+    public EasyWebView toolbarHeight(float dp) {
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
+        lp.width = Utils.dpToPx(dp);
+        mToolbar.setLayoutParams(lp);
+        return this;
+    }
+
+    public EasyWebView toolbarBackgroundColor(@ColorInt int color) {
+        mToolbar.setBackgroundColor(color);
+        return this;
+    }
+
+
+    public EasyWebView toolbarBackgroundColorRes(@ColorRes int colorRes) {
+        toolbarBackgroundColor(Utils.getColorFromRes(colorRes));
+        return this;
+    }
+
+    public EasyWebView showCloseBtn(boolean b) {
+        mCloseView.setVisibility(b ? VISIBLE : INVISIBLE);
+        return this;
+    }
+
+    public EasyWebView showRefreshBtn(boolean b) {
+        mRefreshView.setVisibility(b ? VISIBLE : INVISIBLE);
+        return this;
+    }
+
+    public EasyWebView titleColor(@ColorInt int color) {
+        mPageTitle.setTextColor(color);
+        return this;
+    }
+
+    public EasyWebView titleColorRes(@ColorRes int colorRes) {
+        return titleColor(Utils.getColorFromRes(colorRes));
+    }
+
+    public EasyWebView titleTextSizeSp(float sp) {
+        mPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
+        return this;
+    }
 
     public abstract class WebViewListener {
         public abstract void onWebUrlChanged(EasyWebView myWebView, String url);
