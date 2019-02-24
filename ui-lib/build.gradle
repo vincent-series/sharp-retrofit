@@ -31,4 +31,5 @@ dependencies {
     implementation 'com.github.Aspsine:SwipeToLoadLayout:1.0.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.the-pig-of-jungle.smart-show:toast:2.6.0'
 }

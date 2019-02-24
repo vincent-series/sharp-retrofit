@@ -26,6 +26,7 @@ public class TestWebViewActivity extends AppCompatActivity {
         sb.append("</html>");
 //        mEasyWebView.loadUrl("https://www.jianshu.com/p/c57cb313a461");
         mEasyWebView.loadHtmlText(sb.toString());
-        mEasyWebView.defaultPageTitle("小班课");
+        mEasyWebView.defaultPageTitle("小班课")
+                .showToolbar(false);
     }
 }

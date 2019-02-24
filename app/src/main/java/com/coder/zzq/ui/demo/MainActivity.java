@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.coder.zzq.smartshow.toast.SmartToast;
+import com.coder.zzq.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.coder.zzq.ui.recyclerview.EasyRefreshRecyclerView;
 import com.coder.zzq.ui.viewpager.EasyViewPager;
 
@@ -22,6 +25,12 @@ public class MainActivity extends AppCompatActivity implements OnRefreshListener
         mRefreshRecyclerView = findViewById(R.id.refresh_view);
         mRefreshRecyclerView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         PlainAdapter adapter = new PlainAdapter();
+        adapter.setOnBodyItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<String>() {
+            @Override
+            public void onBodyItemClick(View itemView, int globalPos, int bodyPos, String s) {
+                SmartToast.show(s);
+            }
+        });
         adapter.setBodyData(new String[]{
                 "123",
                 "456",

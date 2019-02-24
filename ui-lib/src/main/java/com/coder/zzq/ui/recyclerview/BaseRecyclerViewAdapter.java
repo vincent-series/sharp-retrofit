@@ -95,22 +95,21 @@ public abstract class BaseRecyclerViewAdapter<HeaderData, BodyDataItem, FooterDa
                 initFooterView(viewHolder.itemView, viewHolder);
                 break;
             default:
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int globalPos = viewHolder.getAdapterPosition();
-                        int bodyPos = withHeader() ? globalPos : globalPos + 1;
-                        onBodyItemClick(v, globalPos, bodyPos, mBodyData.get(bodyPos));
-                    }
-                });
+                if (mOnBodyItemClickListener != null) {
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int globalPos = viewHolder.getAdapterPosition();
+                            int bodyPos = withHeader() ? globalPos - 1 : globalPos;
+                            mOnBodyItemClickListener.onBodyItemClick(viewHolder.itemView,
+                                    globalPos, bodyPos, mBodyData.get(bodyPos));
+                        }
+                    });
+                }
                 initBodyView(viewHolder.itemView, viewHolder, viewType);
                 break;
         }
         return viewHolder;
-    }
-
-    protected void onBodyItemClick(View v, int globalPos, int bodyPos, BodyDataItem bodyDataItem) {
-
     }
 
     protected void initBodyView(View itemView, EasyViewHolder viewHolder, int viewType) {
@@ -220,5 +219,15 @@ public abstract class BaseRecyclerViewAdapter<HeaderData, BodyDataItem, FooterDa
             mFooterData = footerData;
             notifyItemChanged(getItemCount() - 1);
         }
+    }
+
+    private OnItemClickListener<BodyDataItem> mOnBodyItemClickListener;
+
+    public void setOnBodyItemClickListener(OnItemClickListener<BodyDataItem> onBodyItemClickListener) {
+        mOnBodyItemClickListener = onBodyItemClickListener;
+    }
+
+    public interface OnItemClickListener<BodyDataItem> {
+        void onBodyItemClick(View itemView, int globalPos, int bodyPos, BodyDataItem bodyDataItem);
     }
 }

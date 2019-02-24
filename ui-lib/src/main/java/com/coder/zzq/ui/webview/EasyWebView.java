@@ -355,11 +355,6 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public EasyWebView showToolBar(boolean show) {
-        mToolbar.setVisibility(show ? VISIBLE : GONE);
-        return this;
-    }
-
     public EasyWebView takeOrSelectPhotoEnable(boolean enable, int requestCode) {
         mEnableTakeOrSelectPhoto = enable;
         mRequestCodeForTakeOrSelectPhoto = requestCode;
