@@ -5,6 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -17,6 +21,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ValueCallback;
@@ -55,6 +60,7 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
     private ImageView mRefreshView;
     private TextView mPageTitle;
     private View mToolbar;
+    private View mLineSeparator;
 
     private boolean mEnableTakeOrSelectPhoto;
     private int mRequestCodeForTakeOrSelectPhoto;
@@ -92,6 +98,7 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
         mToolbar = findViewById(R.id.title_bar);
         mPageTitle = findViewById(R.id.page_title);
         mWebView = findViewById(R.id.web_view);
+        mLineSeparator = findViewById(R.id.line_separator);
         initWebView();
     }
 
@@ -439,6 +446,26 @@ public class EasyWebView extends FrameLayout implements View.OnClickListener {
 
     public EasyWebView titleTextSizeSp(float sp) {
         mPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
+        return this;
+    }
+
+    public EasyWebView progressBarColor(@ColorInt int color) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(color);
+        ClipDrawable progress = new ClipDrawable(d, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+        GradientDrawable background = new GradientDrawable();
+        background.setColor(Utils.getColorFromRes(R.color.line_color));
+        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{background, progress});
+        mProgressBar.setProgressDrawable(layerDrawable);
+        return this;
+    }
+
+    public EasyWebView progressBarColorRes(@ColorRes int colorRes) {
+        return progressBarColor(Utils.getColorFromRes(colorRes));
+    }
+
+    public EasyWebView withLineSeparatorBelowTitleBar(boolean with) {
+        mLineSeparator.setVisibility(with ? VISIBLE : GONE);
         return this;
     }
 

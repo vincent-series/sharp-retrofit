@@ -5,11 +5,11 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:elevation="2dp"
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:elevation="2dp">
 
         <ImageView
             android:id="@+id/icon_go_back"
@@ -36,6 +36,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/android_ui_icon_refresh" />
+
         <TextView
             android:id="@+id/page_title"
             android:layout_width="150dp"
@@ -43,18 +44,20 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="#333333"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </RelativeLayout>
+
     <View
+        android:id="@+id/line_separator"
         android:layout_width="match_parent"
         android:layout_height="0.3dp"
-        android:background="@color/line_color"/>
+        android:background="@color/line_color" />
+
     <ProgressBar
         android:id="@+id/progress_bar_web_load"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="1.3dp"
-        android:progressDrawable="@drawable/web_view_progress_drawable"
         android:visibility="gone" />
 
     <WebView

@@ -33,6 +33,10 @@ public class TestWebViewActivity extends AppCompatActivity {
         mEasyWebView.defaultPageTitle("小班课")
                 .toolbarBackgroundColorRes(R.color.colorPrimary)
                 .titleColor(Color.parseColor("#ffffff"))
+                .progressBarColor(Color.parseColor("#eb6f3c"))
+                .withLineSeparatorBelowTitleBar(false)
+                .showCloseBtn(false)
+                .showRefreshBtn(false)
                 .showToolbar(true);
     }
 }

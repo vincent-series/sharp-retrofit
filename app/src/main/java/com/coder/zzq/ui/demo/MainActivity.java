@@ -1,7 +1,9 @@
 package com.coder.zzq.ui.demo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,10 +27,35 @@ public class MainActivity extends AppCompatActivity implements OnRefreshListener
         mRefreshRecyclerView = findViewById(R.id.refresh_view);
         mRefreshRecyclerView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         PlainAdapter adapter = new PlainAdapter();
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("闵傲")
+                .create();
+
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                SmartToast.showInCenter("cancel");
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                SmartToast.showInCenter("dismiss");
+            }
+        });
+        dialog.show();
+        dialog.getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                dialog.dismiss();
+            }
+        }, 2000);
         adapter.setOnBodyItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<String>() {
             @Override
             public void onBodyItemClick(View itemView, int globalPos, int bodyPos, String s) {
-                SmartToast.show(s);
+
             }
         });
         adapter.setBodyData(new String[]{
