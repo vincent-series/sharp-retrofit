@@ -23,5 +23,5 @@ object ApiServiceManager {
                 .build()
         )
         .build()
-    val weatherApiService = retrofit.create(WeatherApiService::class.java)
+    val weatherApiService: WeatherApiService = retrofit.create(WeatherApiService::class.java)
 }
