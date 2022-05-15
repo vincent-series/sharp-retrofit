@@ -1,9 +1,8 @@
 package com.coder.vincent.sharp_retrofit.call_adapter.flow.async
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,37 +14,34 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AsyncBodyFlow<T>(private val call: Call<T>) : Flow<T> {
-    @InternalCoroutinesApi
-    override suspend fun collect(collector: FlowCollector<T>) {
-        try {
-            suspendCancellableCoroutine<T> { continuation ->
-                continuation.invokeOnCancellation {
-                    call.cancel()
-                }
-                call.enqueue(object : Callback<T> {
-                    override fun onResponse(call: Call<T>, response: Response<T>) {
-                        if (response.isSuccessful) {
-                            continuation.resume(response.body()!!)
-                        } else {
-                            continuation.resumeWithException(HttpException(response))
-                        }
+fun <T> asyncBodyFlow(call: Call<T>): Flow<T> = flow {
+    try {
+        suspendCancellableCoroutine<T> { continuation ->
+            continuation.invokeOnCancellation {
+                call.cancel()
+            }
+            call.enqueue(object : Callback<T> {
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    if (response.isSuccessful) {
+                        continuation.resume(response.body()!!)
+                    } else {
+                        continuation.resumeWithException(HttpException(response))
                     }
+                }
 
-                    override fun onFailure(call: Call<T>, t: Throwable) {
-                        continuation.resumeWithException(t)
-                    }
-                })
-            }.let {
-                collector.emit(it)
-            }
-        } catch (e: Exception) {
-            suspendCoroutineUninterceptedOrReturn<Nothing> { continuation ->
-                Dispatchers.Default.dispatch(continuation.context) {
-                    continuation.intercepted().resumeWithException(e)
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    continuation.resumeWithException(t)
                 }
-                COROUTINE_SUSPENDED
+            })
+        }.let {
+            emit(it)
+        }
+    } catch (e: Exception) {
+        suspendCoroutineUninterceptedOrReturn<Nothing> { continuation ->
+            Dispatchers.Default.dispatch(continuation.context) {
+                continuation.intercepted().resumeWithException(e)
             }
+            COROUTINE_SUSPENDED
         }
     }
 }

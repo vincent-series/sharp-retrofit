@@ -1,5 +1,7 @@
-package com.coder.vincent.sharp_retrofit.call_adapter.flow
+package com.coder.vincent.sharp_retrofit.call_adapter.flow.sync
 
+import com.coder.vincent.sharp_retrofit.call_adapter.flow.bodyFlow
+import com.coder.vincent.sharp_retrofit.call_adapter.flow.responseFlow
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -13,5 +15,5 @@ class FlowCallAdapter<ResponseBodyType>(
     override fun responseType() = responseBodyType as Type
 
     override fun adapt(call: Call<ResponseBodyType>) =
-        if (withResponseWrapper) ResponseFlow(call) else BodyFlow(call)
+        if (withResponseWrapper) responseFlow(call) else bodyFlow(call)
 }

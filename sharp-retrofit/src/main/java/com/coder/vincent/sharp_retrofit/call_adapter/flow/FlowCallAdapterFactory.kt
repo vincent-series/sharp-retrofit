@@ -1,6 +1,7 @@
 package com.coder.vincent.sharp_retrofit.call_adapter.flow
 
 import com.coder.vincent.sharp_retrofit.call_adapter.flow.async.AsyncFlowCallAdapter
+import com.coder.vincent.sharp_retrofit.call_adapter.flow.sync.FlowCallAdapter
 import kotlinx.coroutines.flow.Flow
 import retrofit2.CallAdapter
 import retrofit2.Response

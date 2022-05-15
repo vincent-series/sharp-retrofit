@@ -13,7 +13,7 @@ class AsyncFlowCallAdapter<ResponseBodyType>(
     override fun responseType() = responseBodyType as Type
 
     override fun adapt(call: Call<ResponseBodyType>) =
-        if (withResponseWrapper) AsyncResponseFlow(call) else AsyncBodyFlow(call)
+        if (withResponseWrapper) asyncResponseFlow(call) else asyncBodyFlow(call)
 }
 
 
