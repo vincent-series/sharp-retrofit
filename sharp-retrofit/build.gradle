@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'maven-publish'
+    id 'signing'
 }
 
 android {
@@ -32,4 +35,70 @@ android {
 dependencies {
     compileOnly 'com.squareup.retrofit2:retrofit:2.9.0'
     compileOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+}
+
+afterEvaluate {
+    publishing {
+        def stagingVersion = "1.6"
+        def snapshotsVersion = "1.7-1.0-SNAPSHOT"
+        def uploadVersion = stagingVersion
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                groupId = 'io.github.vincent-series'
+                artifactId = 'sharp-retrofit'
+                version = uploadVersion
+
+                pom {
+                    name = 'sharp-retrofit'
+                    description = 'extended retrofit lib developed by zhiqiang.zhu.'
+                    url = 'https://github.com/vincent-series/sharp-retrofit'
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'zhiqiang.zhu'
+                            name = 'zhiqiang.zhu'
+                            email = 'coder_zzq@aliyun.com'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:https://github.com/vincent-series/sharp-retrofit.git'
+                        developerConnection = 'scm:git:https://github.com/vincent-series/sharp-retrofit.git'
+                        url = 'https://github.com/vincent-series/sharp-retrofit'
+                    }
+                }
+
+                artifact generateSourcesJar
+            }
+        }
+
+        repositories {
+            maven {
+                url = uploadVersion == stagingVersion ?
+                        'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                        : 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                credentials {
+                    username repo_user_name
+                    password repo_password
+                }
+            }
+        }
+
+        signing {
+            sign publishing.publications.maven
+        }
+    }
+}
+
+task generateSourcesJar(type: Jar) {
+    group = 'jar'
+    archiveClassifier.set("sources")
+    from("src/main/java")
 }
