@@ -71,17 +71,14 @@ interface WeatherApiService {
 @BaseUrl("https://api.seniverse.com/v3/")
 interface WeatherApiService {
     @GET("weather/now.json")
-    fun getWeatherInfoNow(
-        @Query("key") key: String,
-        @Query("location") location: String,
-    ): Flow<WeatherInfo>
+    fun getWeatherInfoNow(@Query("location") location: String): Flow<WeatherInfo>
 }
 ```
 ```kotlin
 @BaseUrl("https://v2.alapi.cn/api/")
 interface LunarApiService {
     @GET("lunar")
-    fun getLunarInfo(@Query("token") token: String, @Query("date") date: String): Flow<LunarInfo>
+    fun getLunarInfo(@Query("date") date: String): Flow<LunarInfo>
 }
 ```
 
