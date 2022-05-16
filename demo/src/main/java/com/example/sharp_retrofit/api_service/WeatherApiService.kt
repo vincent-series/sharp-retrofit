@@ -5,10 +5,11 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-@BaseUrl("https://api.seniverse.com/v3/weather/")
+//key:SCYrvkytJze9qyzOh
+@BaseUrl("https://api.seniverse.com/v3/")
 interface WeatherApiService {
-    @GET("daily.json")
-    fun getWeatherInfoInThreeDays(
+    @GET("weather/now.json")
+    fun getWeatherInfoNow(
         @Query("key") key: String,
         @Query("location") location: String,
     ): Flow<WeatherInfo>

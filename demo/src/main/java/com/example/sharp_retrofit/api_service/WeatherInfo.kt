@@ -11,6 +11,5 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 package com.example.sharp_retrofit.api_service
 data class WeatherInfo (
-
 	val results : List<Results>
 )

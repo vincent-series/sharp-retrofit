@@ -4,6 +4,7 @@ import com.coder.vincent.sharp_retrofit.bean.BaseUrlPlaceholder
 import com.coder.vincent.sharp_retrofit.call_adapter.flow.FlowCallAdapterFactory
 import com.coder.vincent.sharp_retrofit.interceptors.BaseUrlInterceptor
 import com.coder.vincent.sharp_retrofit.interceptors.TimeoutInterceptor
+import com.example.sharp_retrofit.api_service.LunarApiService
 import com.example.sharp_retrofit.api_service.WeatherApiService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,4 +28,5 @@ object ApiServiceManager {
         )
         .build()
     val weatherApiService: WeatherApiService = retrofit.create(WeatherApiService::class.java)
+    val lunarApiService: LunarApiService = retrofit.create(LunarApiService::class.java)
 }

@@ -15,14 +15,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         MainScope().launch {
-            ApiServiceManager.weatherApiService
-                .getWeatherInfoInThreeDays(key = "SCYrvkytJze9qyzOh", location = "北京")
+//            ApiServiceManager.weatherApiService
+//                .getWeatherInfoNow(key = "SCYrvkytJze9qyzOh", location = "北京")
+//                .map {
+//                    //transform data
+//                }
+//                //subscribe on io dispatcher
+//                .flowOn(Dispatchers.IO)
+//                //catch errors
+//                .catch { ex: Throwable ->
+//                    println("error occurs:$ex")
+//                }
+//                //subscribe data
+//                .collect {
+//                    println("weather info:$it")
+//                }
+            ApiServiceManager.lunarApiService
+                .getLunarInfo(token = "LwExDtUWhF3rH5ib", date = "2022-05-16")
                 .flowOn(Dispatchers.IO)
-                .catch { ex: Throwable ->
-                    println(ex)
+                .catch {
+                    println(it)
                 }
                 .collect {
-                    println("*******************$it*******************")
+                    println(it)
                 }
         }
     }
