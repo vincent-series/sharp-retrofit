@@ -12,7 +12,7 @@
    implementation "io.github.vincent-series:sharp-retrofit:1.6"
 </code></pre>
 ### API DOC
-完整API文档，请查阅[wiki]()
+完整API文档，请查阅[wiki](https://github.com/vincent-series/sharp-retrofit/wiki)
 ### 代码示例
 #### FlowCallAdapter的使用
 1. 为`Retrofit`添加`FlowCallAdapterFactory`。
