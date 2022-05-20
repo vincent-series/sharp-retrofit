@@ -39,8 +39,8 @@ dependencies {
 
 afterEvaluate {
     publishing {
-        def stagingVersion = "1.6"
-        def snapshotsVersion = "1.7-1.0-SNAPSHOT"
+        def stagingVersion = "1.7"
+        def snapshotsVersion = "1.8-1.0-SNAPSHOT"
         def uploadVersion = stagingVersion
         publications {
             maven(MavenPublication) {
