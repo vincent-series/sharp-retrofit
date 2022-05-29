@@ -25,39 +25,33 @@ class FlowCallAdapterFactory private constructor(private val async: Boolean) :
         }
 
         val flowableType = getParameterUpperBound(0, returnType)
-        var responseBodyType = flowableType
         val rawFlowableType = getRawType(flowableType)
-        var withResponseWrapper = false
-        if (rawFlowableType == Response::class.java) {
-            withResponseWrapper = true
+
+        return if (rawFlowableType == Response::class.java) {
             if (flowableType !is ParameterizedType) {
                 throw IllegalStateException("the response type must be parameterized as Response<Foo>!")
-            } else {
-                responseBodyType = getParameterUpperBound(0, flowableType)
             }
+            val responseBodyType = getParameterUpperBound(0, flowableType)
+            createResponseFlowCallAdapter(async, responseBodyType)
+        } else {
+            createBodyFlowCallAdapter(async, flowableType)
         }
-
-        return if (async)
-            getAsyncFlowCallAdapter(withResponseWrapper, responseBodyType)
-        else
-            getFlowCallAdapter(withResponseWrapper, responseBodyType)
     }
 
     companion object {
         @JvmStatic
         fun create(async: Boolean = false) = FlowCallAdapterFactory(async)
     }
-
 }
 
-private fun getFlowCallAdapter(withResponse: Boolean, responseBody: Type) =
-    if (withResponse)
-        ResponseFlowCallAdapter(responseBody)
+private fun createResponseFlowCallAdapter(async: Boolean, responseBodyType: Type) =
+    if (async)
+        AsyncResponseFlowCallAdapter(responseBodyType)
     else
-        BodyFlowCallAdapter(responseBody)
+        ResponseFlowCallAdapter(responseBodyType)
 
-private fun getAsyncFlowCallAdapter(withResponse: Boolean, responseBody: Type) =
-    if (withResponse)
-        AsyncResponseFlowCallAdapter(responseBody)
+private fun createBodyFlowCallAdapter(async: Boolean, responseBodyType: Type) =
+    if (async)
+        AsyncBodyFlowCallAdapter(responseBodyType)
     else
-        AsyncBodyFlowCallAdapter(responseBody)
+        BodyFlowCallAdapter(responseBodyType)
