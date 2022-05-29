@@ -10,11 +10,11 @@ import java.lang.reflect.Type
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class ResponseFlowCallAdapter<T>(private val responseBodyType: T) :
-    CallAdapter<T, Flow<Response<T>>> {
+class ResponseFlowCallAdapter<R>(private val responseBodyType: R) :
+    CallAdapter<R, Flow<Response<R>>> {
     override fun responseType() = responseBodyType as Type
 
-    override fun adapt(call: Call<T>): Flow<Response<T>> = responseFlow(call)
+    override fun adapt(call: Call<R>): Flow<Response<R>> = responseFlow(call)
 }
 
 fun <T> responseFlow(call: Call<T>): Flow<Response<T>> = flow {

@@ -12,21 +12,21 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AsyncBodyFlowCallAdapter<T>(private val responseBodyType: T) : CallAdapter<T, Flow<*>> {
+class AsyncBodyFlowCallAdapter<R>(private val responseBodyType: R) : CallAdapter<R, Flow<*>> {
 
     override fun responseType() = responseBodyType as Type
 
-    override fun adapt(call: Call<T>): Flow<T> = asyncBodyFlow(call)
+    override fun adapt(call: Call<R>): Flow<R> = asyncBodyFlow(call)
 }
 
-fun <T> asyncBodyFlow(call: Call<T>): Flow<T> = flow {
+fun <R> asyncBodyFlow(call: Call<R>): Flow<R> = flow {
     try {
-        suspendCancellableCoroutine<T> { continuation ->
+        suspendCancellableCoroutine<R> { continuation ->
             continuation.invokeOnCancellation {
                 call.cancel()
             }
-            call.enqueue(object : Callback<T> {
-                override fun onResponse(call: Call<T>, response: Response<T>) {
+            call.enqueue(object : Callback<R> {
+                override fun onResponse(call: Call<R>, response: Response<R>) {
                     if (response.isSuccessful) {
                         continuation.resume(response.body()!!)
                     } else {
@@ -34,7 +34,7 @@ fun <T> asyncBodyFlow(call: Call<T>): Flow<T> = flow {
                     }
                 }
 
-                override fun onFailure(call: Call<T>, t: Throwable) {
+                override fun onFailure(call: Call<R>, t: Throwable) {
                     continuation.resumeWithException(t)
                 }
             })

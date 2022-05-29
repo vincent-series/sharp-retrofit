@@ -10,15 +10,14 @@ import java.lang.reflect.Type
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class BodyFlowCallAdapter<T>(private val responseBodyType: T) : CallAdapter<T, Flow<T>> {
-
+class BodyFlowCallAdapter<R>(private val responseBodyType: R) : CallAdapter<R, Flow<R>> {
     override fun responseType() = responseBodyType as Type
 
-    override fun adapt(call: Call<T>): Flow<T> = bodyFlow(call)
+    override fun adapt(call: Call<R>): Flow<R> = bodyFlow(call)
 }
 
-fun <T> bodyFlow(call: Call<T>): Flow<T> = flow {
-    suspendCancellableCoroutine<T> { continuation ->
+fun <R> bodyFlow(call: Call<R>): Flow<R> = flow {
+    suspendCancellableCoroutine<R> { continuation ->
         continuation.invokeOnCancellation {
             call.cancel()
         }
