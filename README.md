@@ -1,3 +1,5 @@
+##### 试试作者其他的开源库? 
+* [smart-show](https://github.com/vincent-series/smart-show)
 # sharp-retrofit
 
 ### 功能概览
