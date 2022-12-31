@@ -3,6 +3,7 @@ package com.coder.vincent.sharp_retrofit.call_adapter.flow.async
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.*
 import java.lang.reflect.Type
@@ -49,7 +50,7 @@ fun <R> asyncBodyFlow(call: Call<R>): Flow<R> = flow {
             COROUTINE_SUSPENDED
         }
     }
-}
+}.take(1)
 
 
 

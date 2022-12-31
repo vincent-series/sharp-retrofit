@@ -2,6 +2,7 @@ package com.coder.vincent.sharp_retrofit.call_adapter.flow.sync
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -34,4 +35,4 @@ fun <R> bodyFlow(call: Call<R>): Flow<R> = flow {
     }.let {
         emit(it)
     }
-}
+}.take(1)
