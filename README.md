@@ -11,7 +11,7 @@
    
 ### 添加依赖
 <pre><code>
-   implementation "io.github.vincent-series:sharp-retrofit:1.9"
+   implementation "io.github.vincent-series:sharp-retrofit:2.0"
 </code></pre>
 ### API DOC
 完整API文档，请查阅[wiki](https://github.com/vincent-series/sharp-retrofit/wiki)
