@@ -15,33 +15,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//            ApiServiceManager.lunarApiService
-//                .getLunarInfo(token = "LwExDtUWhF3rH5ib", date = "2022-05-16")
-//                .flowOn(Dispatchers.IO)
-//                .catch {
-//                    println(it)
-//                }
-//                .collect {
-//                    println(it)
-//                }
-
         MainScope().launch {
-            ApiServiceManager.weatherApiService
-                .getWeatherInfoNow(location = "北京")
-                //transform data,if you want to
-                .map {
-                    // ...
-                }
-                //subscribe on io dispatcher
+            ApiServiceManager.lunarApiService
+                .getLunarInfo(token = "LwExDtUWhF3rH5ib", date = "2022-05-16")
                 .flowOn(Dispatchers.IO)
-                //catch errors
-                .catch { ex ->
-                    println("error occurs:$ex")
+                .catch {
+                    println(it)
                 }
-                //subscribe data
                 .collect {
-                    println("weather info:$it")
+                    println(it)
                 }
         }
+
+//        MainScope().launch {
+//            ApiServiceManager.weatherApiService
+//                .getWeatherInfoNow(location = "北京")
+//                //transform data,if you want to
+//                .map {
+//                    // ...
+//                }
+//                //subscribe on io dispatcher
+//                .flowOn(Dispatchers.IO)
+//                //catch errors
+//                .catch { ex ->
+//                    println("error occurs:$ex")
+//                }
+//                //subscribe data
+//                .collect {
+//                    println("weather info:$it")
+//                }
+//        }
     }
 }
